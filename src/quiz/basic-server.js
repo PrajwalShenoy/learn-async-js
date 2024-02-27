@@ -1,10 +1,8 @@
 #! /opt/homebrew/bin/node
 const http = require('http');
 const url = require('url');
-
 const hostname = 'localhost';
 const port = 8000;
-
 const incidents = [
     {
         id: "MABOS001",
@@ -14,7 +12,6 @@ const incidents = [
         place: "Stonehaven",
         direction: "north",
         description: "Broken-down T on north and park station."
-
     },
     {
         id: "MABOS002",
@@ -24,15 +21,12 @@ const incidents = [
         place: "Stonehaven",
         direction: "north",
         description: "Car in West Village broken down."
-
     }
 ]
-
 const server = http.createServer((req, res) => {
     // Parse the request URL to extract parameters
     const parsedUrl = url.parse(req.url, true);
     const { pathname } = parsedUrl;
-
     // Check if the request is for the specified endpoint
     if (pathname.startsWith('/incidents/')) {
         // Extract parameters from the URL
@@ -46,8 +40,8 @@ const server = http.createServer((req, res) => {
             })));
         }
         else {
-            res.writeHead(404, { 'Content-Type': 'text/plain' });
-            res.end('Endpoint not found');
+            res.writeHead(400, { 'Content-Type': 'text/plain' });
+            res.end('Missing values');
         }
     } else {
         // If the request is for an unsupported endpoint, send a not found response
@@ -55,7 +49,6 @@ const server = http.createServer((req, res) => {
         res.end('Endpoint not found');
     }
 });
-
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 })
